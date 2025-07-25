@@ -109,7 +109,7 @@ export const LoginPage: React.FC = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse delay-400" />
-                <span className="text-gray-300">Análise preditiva</span>
+                <span className="text-gray-300">Análise produtiva</span>
               </div>
             </div>
           </div>
