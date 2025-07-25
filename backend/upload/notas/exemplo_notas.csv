@@ -1,0 +1,11 @@
+data,descricao,valor,categoria,status
+2024-01-15,Compra de material de escritório,150.50,Despesas Operacionais,Pago
+2024-01-16,Venda de produto A,2500.00,Receitas,Vendido
+2024-01-17,Manutenção de equipamentos,320.75,Despesas Técnicas,Pago
+2024-01-18,Comissão de vendedor,180.00,Despesas Comerciais,Pendente
+2024-01-19,Recebimento de cliente,5000.00,Receitas,Recebido
+2024-01-20,Aluguel do escritório,1200.00,Despesas Fixas,Pago
+2024-01-21,Compra de estoque,3500.00,Despesas Operacionais,Pago
+2024-01-22,Venda de produto B,1800.00,Receitas,Vendido
+2024-01-23,Despesa com marketing,450.25,Despesas Comerciais,Pago
+2024-01-24,Recebimento antecipado,3000.00,Receitas,Recebido 
