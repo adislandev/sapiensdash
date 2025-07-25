@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # Backend Django
+  backend:
+    build: .
+    container_name: sapiensbi-enem-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-me-in-production}
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+      - FIREBASE_API_KEY=${FIREBASE_API_KEY}
+      - FIREBASE_AUTH_DOMAIN=${FIREBASE_AUTH_DOMAIN}
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - FIREBASE_STORAGE_BUCKET=${FIREBASE_STORAGE_BUCKET}
+      - FIREBASE_MESSAGING_SENDER_ID=${FIREBASE_MESSAGING_SENDER_ID}
+      - FIREBASE_APP_ID=${FIREBASE_APP_ID}
+      - FIREBASE_MEASUREMENT_ID=${FIREBASE_MEASUREMENT_ID}
+    volumes:
+      - ./media:/app/media
+      - ./staticfiles:/app/staticfiles
+      - ./logs:/app/logs
+    depends_on:
+      - db
+    networks:
+      - sapiensbi-network
+
+  # Banco de dados PostgreSQL
+  db:
+    image: postgres:15
+    container_name: sapiensbi-enem-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=sapiensbi_enem
+      - POSTGRES_USER=sapiensbi_user
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-sapiensbi_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - sapiensbi-network
+
+  # Redis para cache e Celery
+  redis:
+    image: redis:7-alpine
+    container_name: sapiensbi-enem-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - sapiensbi-network
+
+  # Nginx (opcional para produção)
+  nginx:
+    image: nginx:alpine
+    container_name: sapiensbi-enem-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./staticfiles:/app/staticfiles
+      - ./media:/app/media
+    depends_on:
+      - backend
+    networks:
+      - sapiensbi-network
+
+volumes:
+  postgres_data:
+
+networks:
+  sapiensbi-network:
+    driver: bridge 
